@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 
@@ -36,8 +37,11 @@ namespace BHS.AcidRain.Game
 
                 string wordSpell = SelectWord(); //Todo:
 
+                //GameObject SummonedWord =
+                //    Instantiate(_acidWord, _spawnPoints[_tempSpawnPoint].position, Quaternion.identity, null); //Todo:
+
                 GameObject SummonedWord =
-                    Instantiate(_acidWord, _spawnPoints[_tempSpawnPoint].position, Quaternion.identity, null); //Todo:
+                    PhotonNetwork.Instantiate("Prefabs/Word/AcidWord", _spawnPoints[_tempSpawnPoint].position, Quaternion.identity);
 
                 SummonedWord.GetComponent<AcidWordController>().WordSpell = wordSpell; //Todo:
 

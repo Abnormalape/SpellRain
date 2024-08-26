@@ -1,26 +1,28 @@
 ﻿using BHS.AcidRain.NetWork;
 using BHS.AcidRain.UI;
+using Photon.Realtime;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BHS.AcidRain.GameManager
 {
     public class GameManager : MonoBehaviour
     {
-        private NetWorkManager _netWorkManager;
-        private UIManger _UIManger;
-
+        public NetWorkManager _netWorkManager { get; private set; }
+        public UIManger _uIManger { get; private set; }
+        public GameSceneManager _gameSceneManager { get; private set; }
         public bool IsNetWorkConnected { get; private set; }
 
         private void Awake()
         {
             _netWorkManager = GetComponent<NetWorkManager>();
-            _UIManger = GetComponent<UIManger>();
+            _uIManger = GetComponent<UIManger>();
+            _gameSceneManager = GetComponent<GameSceneManager>();
         }
 
         private void Start()
         {
-            _netWorkManager.OnServerConnected += StartGame;
-            _netWorkManager.OnServerDisconnected += EndGame;
+            _netWorkManager.OnRoomListInRoomChanged += ClientRoomListChanged;
         }
 
         /// <summary>
@@ -43,6 +45,11 @@ namespace BHS.AcidRain.GameManager
         public void EndGame()
         {
             IsNetWorkConnected = false;
+        }
+
+        private void ClientRoomListChanged(List<RoomInfo> changedRoomList)
+        {
+            _uIManger.InstantiateRoomListGameObject(changedRoomList);
         }
     }
 }

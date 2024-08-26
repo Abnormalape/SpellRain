@@ -7,6 +7,7 @@ namespace BHS.AcidRain.Game
     {
         private void Start()
         {
+            PhotonView asdf = new();
             
         }
     }

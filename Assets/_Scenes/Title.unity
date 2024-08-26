@@ -373,6 +373,7 @@ GameObject:
   - component: {fileID: 516972731}
   - component: {fileID: 516972730}
   - component: {fileID: 516972729}
+  - component: {fileID: 516972732}
   m_Layer: 5
   m_Name: MultiPlay
   m_TagString: Untagged
@@ -443,19 +444,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 516972730}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2129129171}
-        m_TargetAssemblyTypeName: BHS.AcidRain.NetWork.NetWorkManager, Assembly-CSharp
-        m_MethodName: TryJoinLobby
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &516972730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,6 +483,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516972727}
   m_CullTransparentMesh: 1
+--- !u!114 &516972732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516972727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 075bb1812eae30a4a9e642f3bf8ebc26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _managers: {fileID: 2129129169}
+  _sceneToGo: 
 --- !u!1 &704634356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1129,8 +1132,9 @@ GameObject:
   - component: {fileID: 2129129170}
   - component: {fileID: 2129129171}
   - component: {fileID: 2129129172}
-  - component: {fileID: 2129129173}
   - component: {fileID: 2129129174}
+  - component: {fileID: 2129129175}
+  - component: {fileID: 2129129176}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1177,7 +1181,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32392e695f4cf45428c08dd0e4277cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2129129173
+--- !u!114 &2129129174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129129169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5fb9a458cff84a46942124509d7cdc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2129129175
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1189,7 +1205,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b3b1913ca8276246a2df2c0b7659bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2129129174
+  SingleRoomUIPrefab: {fileID: 9008640343893784017, guid: 0d3e1f02f9c212f46886a718c80af6d9, type: 3}
+  SingleRoomWindowPrefab: {fileID: 1586181856548582618, guid: a149ae517e59d3d40b34bc014e5bac8a, type: 3}
+  SingleRoomSettingWindowPrefab: {fileID: 1586181856548582618, guid: 018812e24ed0bde41986f1de87a293fe, type: 3}
+--- !u!114 &2129129176
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1198,7 +1217,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2129129169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5fb9a458cff84a46942124509d7cdc3, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f7b995b9d4537e4fb8a71558dc45725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
