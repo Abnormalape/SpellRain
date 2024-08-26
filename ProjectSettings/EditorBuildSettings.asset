@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/MultiLobby.unity
     guid: 748efb826492d36418dafea9ec47d00a
+  - enabled: 1
+    path: Assets/_Scenes/AcidRainBattle.unity
+    guid: d469f5fc639e0514b8addf1672328da2
   m_configObjects: {}

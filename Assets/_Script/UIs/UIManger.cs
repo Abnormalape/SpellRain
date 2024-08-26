@@ -14,6 +14,7 @@ namespace BHS.AcidRain.UI
         private Dictionary<string, GameObject> RoomsUI = new();
         private GridLayoutGroup _roomSelectionGrid;
 
+        private List<GameObject> PopUpButtons = new(5);
 
         public GridLayoutGroup RoomSelectionGrid { get => _roomSelectionGrid; set => _roomSelectionGrid = value; }
 
@@ -69,6 +70,16 @@ namespace BHS.AcidRain.UI
         {
             Debug.Log("Room Setting Window Opened");
             Instantiate(SingleRoomSettingWindowPrefab);
+        }
+
+        public void AddButtonToButtonList(GameObject toAddButton)
+        {
+            PopUpButtons.Add(toAddButton);
+        }
+
+        public void RemoveButtonToButtonList(GameObject toRemoveButton)
+        {
+            PopUpButtons.Remove(toRemoveButton);
         }
     }
 }

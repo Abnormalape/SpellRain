@@ -15,6 +15,7 @@ namespace BHS.AcidRain.Buttons
         {
             Debug.Log("Create New Room Clicked");
             PhotonNetwork.CreateRoom("TempRoom");
+            Destroy(transform.root.gameObject);
         }
     }
 }

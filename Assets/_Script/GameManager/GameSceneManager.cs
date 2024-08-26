@@ -26,7 +26,15 @@ namespace BHS.AcidRain.GameManager
                 yield return null;
             }
 
-            _gameManager._netWorkManager.TryJoinLobby();
+            if (sceneName == "MultiLobby")
+            {
+                _gameManager._netWorkManager.TryJoinLobby();
+            }
+            else if (sceneName == "AcidRainBattle")
+            {
+                Debug.Log("Enter GameScene Complete");
+                _gameManager.RPCTESTMETHOD();
+            }
         }
     }
 }

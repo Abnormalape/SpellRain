@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Photon.Pun;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -30,6 +31,12 @@ namespace BHS.AcidRain.Game
 
         private void JudgeText(string inputText)
         {
+            if (inputText.StartsWith("spell")) //Todo:
+            {
+                AttackPlayer();
+                return;
+            }
+
             AcidWordController tempController;
 
             _acidWords.TryGetValue(inputText, out tempController);
@@ -49,7 +56,7 @@ namespace BHS.AcidRain.Game
 
         private void RemoveText(AcidWordController tempController) //Todo:
         {
-            Destroy(tempController.gameObject);
+            PhotonNetwork.Destroy(tempController.gameObject);
         }
 
         private void AddScore(AcidWordController tempController) //Todo:
@@ -59,7 +66,7 @@ namespace BHS.AcidRain.Game
 
         private void AttackPlayer() //Todo:
         {
-
+            Debug.Log("Spell Attack!!!");
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using BHS.AcidRain.NetWork;
+﻿using BHS.AcidRain.Game;
+using BHS.AcidRain.NetWork;
 using BHS.AcidRain.UI;
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +10,13 @@ namespace BHS.AcidRain.GameManager
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField] private GameObject RPCTESTPREFAB;
+
         public NetWorkManager _netWorkManager { get; private set; }
         public UIManger _uIManger { get; private set; }
         public GameSceneManager _gameSceneManager { get; private set; }
         public bool IsNetWorkConnected { get; private set; }
+
 
         private void Awake()
         {
@@ -50,6 +55,11 @@ namespace BHS.AcidRain.GameManager
         private void ClientRoomListChanged(List<RoomInfo> changedRoomList)
         {
             _uIManger.InstantiateRoomListGameObject(changedRoomList);
+        }
+
+        public void RPCTESTMETHOD()
+        {
+            PhotonNetwork.Instantiate("Prefabs/ForTest/RPCTest", Vector3.zero, Quaternion.identity);
         }
     }
 }
