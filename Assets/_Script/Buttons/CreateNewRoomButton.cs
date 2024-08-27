@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ namespace BHS.AcidRain.Buttons
         public void Clicked()
         {
             Debug.Log("Create New Room Clicked");
-            PhotonNetwork.CreateRoom("TempRoom");
+            PhotonNetwork.CreateRoom("Temp Room");
             Destroy(transform.root.gameObject);
         }
     }

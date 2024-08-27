@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using BHS.AcidRain.NetWork;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,11 +14,12 @@ namespace BHS.AcidRain.GameManager
             _gameManager = GetComponent<GameManager>();
         }
 
-        public void GameSceneChange(string sceneName)
+        public void GameSceneChange(string sceneName, RoomManager caller = null)
         {
-            StartCoroutine(LoadSceneAndWaitUntilLoadEnds(sceneName));
+            StartCoroutine(LoadSceneAndWaitUntilLoadEnds(sceneName, caller));
         }
-        private IEnumerator LoadSceneAndWaitUntilLoadEnds(string sceneName)
+
+        private IEnumerator LoadSceneAndWaitUntilLoadEnds(string sceneName, RoomManager caller = null)
         {
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 
@@ -28,12 +30,14 @@ namespace BHS.AcidRain.GameManager
 
             if (sceneName == "MultiLobby")
             {
-                _gameManager._netWorkManager.TryJoinLobby();
+                _gameManager.NetWorkManager.TryJoinLobby();
             }
             else if (sceneName == "AcidRainBattle")
             {
-                Debug.Log("Enter GameScene Complete");
-                _gameManager.RPCTESTMETHOD();
+                if(caller !=null)
+                {
+                    caller.OnEnterRoomComplete();
+                }
             }
         }
     }

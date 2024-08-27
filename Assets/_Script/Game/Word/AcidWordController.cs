@@ -1,6 +1,6 @@
 ﻿using TMPro;
-using Unity.Jobs;
 using UnityEngine;
+using Photon.Pun;
 
 namespace BHS.AcidRain.Game
 {
@@ -19,6 +19,12 @@ namespace BHS.AcidRain.Game
                 _wordSpell = value;
                 _textMeshProUGUI.text = _wordSpell;
             }
+        }
+
+        [PunRPC]
+        public void SetWordSpell(string spellinput)
+        {
+            WordSpell = spellinput;
         }
 
         private void Awake()

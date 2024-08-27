@@ -12,22 +12,17 @@ namespace BHS.AcidRain.GameManager
     {
         [SerializeField] private GameObject RPCTESTPREFAB;
 
-        public NetWorkManager _netWorkManager { get; private set; }
-        public UIManger _uIManger { get; private set; }
-        public GameSceneManager _gameSceneManager { get; private set; }
+        public NetWorkManager NetWorkManager { get; private set; }
+        public UIManger UIManger { get; private set; }
+        public GameSceneManager GameSceneManager { get; private set; }
         public bool IsNetWorkConnected { get; private set; }
 
 
         private void Awake()
         {
-            _netWorkManager = GetComponent<NetWorkManager>();
-            _uIManger = GetComponent<UIManger>();
-            _gameSceneManager = GetComponent<GameSceneManager>();
-        }
-
-        private void Start()
-        {
-            _netWorkManager.OnRoomListInRoomChanged += ClientRoomListChanged;
+            NetWorkManager = GetComponent<NetWorkManager>();
+            UIManger = GetComponent<UIManger>();
+            GameSceneManager = GetComponent<GameSceneManager>();
         }
 
         /// <summary>
@@ -50,16 +45,6 @@ namespace BHS.AcidRain.GameManager
         public void EndGame()
         {
             IsNetWorkConnected = false;
-        }
-
-        private void ClientRoomListChanged(List<RoomInfo> changedRoomList)
-        {
-            _uIManger.InstantiateRoomListGameObject(changedRoomList);
-        }
-
-        public void RPCTESTMETHOD()
-        {
-            PhotonNetwork.Instantiate("Prefabs/ForTest/RPCTest", Vector3.zero, Quaternion.identity);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Photon.Realtime;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,42 +30,45 @@ namespace BHS.AcidRain.UI
                 SingleRoomSettingWindowPrefab = Resources.Load("Prefabs/UIWindow/RoomSettingWindow") as GameObject;
         }
 
-        public void InstantiateRoomListGameObject(List<RoomInfo> changedRoomList)
+        #region RoomUIControl
+        //Instantiate Room GameObject.
+        public void AddRoomUI(RoomInfo roomInfo)
         {
-            List<RoomInfo> roomListBuffer = changedRoomList;
+            RoomInfo _tempRoomInfo = roomInfo;
+            GameObject roomMade = 
+                Instantiate(SingleRoomUIPrefab, _roomSelectionGrid.gameObject.transform);
+            SingleRoomUI _tempSingleRoom = roomMade.GetComponent<SingleRoomUI>();
 
-            Debug.Log("I'm Gonna Instantiate Room List GameObjcet!!");
-            Debug.Log($"There are {roomListBuffer.Count} Rooms in Lobby!!");
-
-            for (int i = 0; i < roomListBuffer.Count; i++)
-            {
-                string roomName = roomListBuffer[i].Name;
-                GameObject roomMade = Instantiate(SingleRoomUIPrefab, _roomSelectionGrid.gameObject.transform);
-                roomMade.GetComponent<SingleRoomUI>().SingleRoomInitializer(roomName);
-                RoomsUI.Add(roomName, roomMade);
-            }
-
-            if (changedRoomList.Count == 0)
-            {
-                string roomName = "Empty Room";
-                GameObject roomMade = Instantiate(SingleRoomUIPrefab, _roomSelectionGrid.gameObject.transform);
-                roomMade.GetComponent<SingleRoomUI>().SingleRoomInitializer(roomName);
-                RoomsUI.Add(roomName, roomMade);
-            }
-
-            if (changedRoomList.Count == 0)
-            {
-                string roomName = "Private Room";
-                GameObject roomMade = Instantiate(SingleRoomUIPrefab, _roomSelectionGrid.gameObject.transform);
-                roomMade.GetComponent<SingleRoomUI>().SingleRoomInitializer(roomName, 1, "Private");
-                RoomsUI.Add(roomName, roomMade);
-            }
+            _tempSingleRoom.SingleRoomComponentUpdate(_tempRoomInfo.Name, _tempRoomInfo.PlayerCount);
+            RoomsUI.Add(_tempRoomInfo.Name, roomMade);
         }
 
+        //Adjust Room GameObject.
+        public void UpdateRoomUI(RoomInfo roomInfo)
+        {
+            RoomInfo _tempRoomInfo = roomInfo;
+            SingleRoomUI _tempSingleRoom =
+                RoomsUI[_tempRoomInfo.Name].GetComponent<SingleRoomUI>();
+
+            _tempSingleRoom.SingleRoomComponentUpdate(_tempRoomInfo.Name, _tempRoomInfo.PlayerCount);
+        }
+
+        //Remove Room GameObject.
+        public void RemoveRoomUI(RoomInfo roomInfo)
+        {
+            RoomInfo _tempRoomInfo = roomInfo;
+
+            Destroy(RoomsUI[roomInfo.Name]);
+            RoomsUI.Remove(roomInfo.Name);
+        }
+        #endregion
+
+        #region RoomWindow
         public void InstantiateRoomWindow()
         {
             Debug.Log("Room Window Opened");
-            Instantiate(SingleRoomWindowPrefab);
+            PhotonNetwork.Instantiate("Prefabs/UIWindow/RoomWindow",Vector3.zero,Quaternion.identity);
+            // Instantiate(SingleRoomWindowPrefab);
         }
 
         public void InstantiateRoomSettingWindow()
@@ -71,7 +76,9 @@ namespace BHS.AcidRain.UI
             Debug.Log("Room Setting Window Opened");
             Instantiate(SingleRoomSettingWindowPrefab);
         }
+        #endregion
 
+        #region Button
         public void AddButtonToButtonList(GameObject toAddButton)
         {
             PopUpButtons.Add(toAddButton);
@@ -81,5 +88,6 @@ namespace BHS.AcidRain.UI
         {
             PopUpButtons.Remove(toRemoveButton);
         }
+        #endregion
     }
 }

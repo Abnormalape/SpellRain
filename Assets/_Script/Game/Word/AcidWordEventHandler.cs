@@ -27,6 +27,7 @@ namespace BHS.AcidRain.Game
 
         public void DestroyWord()
         {
+            Debug.Log("Word Destroyed");
             Destroy(this.gameObject);
 
             // PhotonNetwork.Destroy(this.gameObject); //Todo:

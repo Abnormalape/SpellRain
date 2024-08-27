@@ -1,7 +1,6 @@
 ﻿using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace BHS.AcidRain.Game
 {
@@ -13,15 +12,18 @@ namespace BHS.AcidRain.Game
 
         private void Awake()
         {
-            if (_textInput == null) { Debug.Log("No Text Input"); }
+            _textInput = (_textInput != null) ? _textInput : FindFirstObjectByType<GameTextInput>();
             _wordSpawner = GetComponent<WordSpawner>();
             _acidWords = new(50);
         }
 
         private void Start()
         {
-            _wordSpawner.OnSummonWord += AddWord;
-            _textInput.OnEnterText += JudgeText;
+            //Todo: adjust.
+            _wordSpawner.OnSummonWord += AddWord; //when word summoned, add it to list.
+            
+            //Todo: adjust.
+            _textInput.OnEnterText += JudgeText; //when text inputed, judge it.
         }
 
         private void AddWord(string wordName, AcidWordController controller)
@@ -29,7 +31,7 @@ namespace BHS.AcidRain.Game
             _acidWords.TryAdd(wordName, controller); //Todo: Delete
         }
 
-        private void JudgeText(string inputText)
+        private void JudgeText(string inputText)//Todo:
         {
             if (inputText.StartsWith("spell")) //Todo:
             {
@@ -56,6 +58,7 @@ namespace BHS.AcidRain.Game
 
         private void RemoveText(AcidWordController tempController) //Todo:
         {
+            Debug.Log("Word Destroyed");
             PhotonNetwork.Destroy(tempController.gameObject);
         }
 
