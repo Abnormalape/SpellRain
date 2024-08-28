@@ -20,11 +20,11 @@ namespace BHS.AcidRain.NetWork
         public int WordSpawnerSpawnCompleteCount
         {
             get => _wordSpawnerSpawnCompleteCount;
-            set 
-            { 
-                _wordSpawnerSpawnCompleteCount = value; 
+            set
+            {
+                _wordSpawnerSpawnCompleteCount = value;
 
-                if(_wordSpawnerSpawnCompleteCount >= _playersOnGame)
+                if (_wordSpawnerSpawnCompleteCount >= _playersOnGame)
                 {
                     StartSpawnWord();
                 }
@@ -95,7 +95,8 @@ namespace BHS.AcidRain.NetWork
                 //Todo: Make Masterclient's Wordspawner Spawn Words.
 
                 //1. Summon WordSpawner To All Client
-                PhotonNetwork.Instantiate("Prefabs/Word/WordSpawner", new Vector2(0, 6f), Quaternion.identity);
+                //Todo:
+                PhotonNetwork.Instantiate("Prefabs/GameFunction/TestWordManager", Vector3.zero, Quaternion.identity);
 
                 //2. Use RPC to Make Word To All Client
             }
