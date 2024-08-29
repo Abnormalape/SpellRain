@@ -116,7 +116,7 @@ namespace BHS.AcidRain.NetWork
         private void StartSpawnWord()
         {
             Debug.Log("All Spawner Spawn Complete!!");
-            StartCoroutine(_wordSpawner.WordSpawn());
+            // StartCoroutine(_wordSpawner.WordSpawn());
         }
     }
 }

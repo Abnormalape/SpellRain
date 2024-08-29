@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Score
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ac73010b3e43da24b84ccd29affb5cb2, type: 2}
+  m_sharedMaterial: {fileID: 4612927811295054845, guid: ac73010b3e43da24b84ccd29affb5cb2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -279,8 +279,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ac73010b3e43da24b84ccd29affb5cb2, type: 2}
+  m_sharedMaterial: {fileID: 4612927811295054845, guid: ac73010b3e43da24b84ccd29affb5cb2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -413,8 +413,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ac73010b3e43da24b84ccd29affb5cb2, type: 2}
+  m_sharedMaterial: {fileID: 4612927811295054845, guid: ac73010b3e43da24b84ccd29affb5cb2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -489,7 +489,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2992455234448716246}
-  - component: {fileID: 3647732472500679418}
+  - component: {fileID: 270039380065662780}
   m_Layer: 0
   m_Name: SingleScoreBoard
   m_TagString: Untagged
@@ -513,7 +513,7 @@ Transform:
   - {fileID: 7560415425788107392}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3647732472500679418
+--- !u!114 &270039380065662780
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -522,11 +522,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3096754937895689374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c9ea982f03e4a45aa4d0ba48e8dcc9, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c8b9dbfd1daef24db2230c85510add9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Score: 0
-  Ranking: 0
 --- !u!1 &6929470357979413761
 GameObject:
   m_ObjectHideFlags: 0

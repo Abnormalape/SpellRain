@@ -4,35 +4,71 @@ using Photon.Pun;
 
 namespace BHS.AcidRain.Game
 {
+    /// <summary>
+    /// This class contains Word's Data, like Score.
+    /// And makes Word fall down.
+    /// And ETC.
+    /// </summary>
     public class AcidWordController : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI _textMeshProUGUI;
-        private AcidWordEventHandler _acidWordEventController;
-        public int WordScore { get; private set; } = 1; //Todo:
+        public int score { get; private set; }
+        string wordSpell;
+        float passedTime;
+        float speed;
+        TextMeshProUGUI textMeshProUGUI;
+        PhotonView photonView;
 
-        private string _wordSpell;
-        public string WordSpell 
-        { 
-            get => _wordSpell; 
-            set 
-            { 
-                _wordSpell = value;
-                _textMeshProUGUI.text = _wordSpell;
+
+        private void Awake()
+        {
+            textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
+            photonView = GetComponent<PhotonView>();
+        }
+
+        private void Update()
+        {
+            passedTime += Time.deltaTime;
+            if (passedTime >= 2f / (1f + (speed / 1f)))
+            {
+                passedTime = 0f;
+                MoveDown();
+            }
+        }
+
+        public void AdjustWord(int currentLevel, string wordSpell, bool isPublicWord, float speed = 1f)
+        {
+            if (isPublicWord)
+            {
+                score = currentLevel * 100;
+                this.wordSpell = wordSpell;
+                textMeshProUGUI.text = wordSpell;
+                this.speed = speed;
+            }
+            else
+            {
+                photonView.RPC("AdjustPublicWord", RpcTarget.All, currentLevel, wordSpell, speed);
             }
         }
 
         [PunRPC]
-        public void SetWordSpell(string spellinput)
+        public void AdjustPublicWord(int currentLevel, string wordSpell, float speed = 1f)
         {
-            WordSpell = spellinput;
+            score = currentLevel * 100;
+            this.wordSpell = wordSpell;
+            textMeshProUGUI.text = wordSpell;
+            this.speed = speed;
         }
 
-        private void Awake()
+        void MoveDown()
         {
-            _acidWordEventController = GetComponent<AcidWordEventHandler>();
+            float randonMovement = Random.Range(0.9f, 1.1f);
+            transform.position += Vector3.down * randonMovement * 0.5f;
+        }
 
-            if(_textMeshProUGUI == null)
-                _textMeshProUGUI = this.GetComponentInChildren<TextMeshProUGUI>();
+        [PunRPC]
+        public void AddToPublicDictionary(string Word)
+        {
+            FindFirstObjectByType<WordManager>().AddPublicWord(Word, this.gameObject); ;
         }
     }
 }
