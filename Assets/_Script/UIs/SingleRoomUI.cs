@@ -29,14 +29,15 @@ namespace BHS.AcidRain.UI
             _parentCanvasTransform = transform.parent;
         }
 
-        public void SingleRoomInitializer(string roomName)
+        //Todo: SingleRoomComponentUpdate Needs more detailed function.
+        public void SingleRoomComponentUpdate(string roomName)
         {
             Debug.Log($"{roomName} has made!");
 
             _roomName.text = roomName;
         }
 
-        public void SingleRoomInitializer(string roomName, int roomMembers, string roomState = "")
+        public void SingleRoomComponentUpdate(string roomName, int roomMembers, string roomState = "")
         {
             Debug.Log($"{roomName} has made!");
 
@@ -49,7 +50,7 @@ namespace BHS.AcidRain.UI
 
         private void OnDestroy()
         {
-            Debug.Log("Room Has Destroyed!!!");
+            Debug.Log("Room UI Has Destroyed!!!");
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -102,7 +103,7 @@ namespace BHS.AcidRain.UI
         private void TryJoinRoom()
         {
             Debug.Log("Room Clicked");
-            PhotonNetwork.JoinRoom("aa");
+            PhotonNetwork.JoinRoom("Temp Room");
         }
     }
 }
