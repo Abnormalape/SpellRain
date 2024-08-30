@@ -6,10 +6,21 @@ namespace BHS.AcidRain.Game
 {
     public abstract class Spell
     {
+        public Spell(int comboNeeded, SpellManager ownerSpellManager)
+        {
+            this.comboNeeded = comboNeeded;
+            OwnerSpellManager = ownerSpellManager;
+            ScoreBoard = OwnerSpellManager.WordManager.ScoreBoardManagerInstance;
+        }
+
+
+        public int comboNeeded;
+        public SpellManager OwnerSpellManager;
+        public ScoreBoardManager ScoreBoard;
+
 
         public virtual void TryUseSpell(int combo, Player spellUser, PhotonView spellSpawner)
         {
-            Debug.Log("Try Use Spell!");
         }
 
         public bool JudgeSpell(int combo, int comboNeeded)

@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BHS.AcidRain.Game
@@ -108,6 +109,28 @@ namespace BHS.AcidRain.Game
                     //.transform.position
                     //= RankingPositions[playerData.Value.Ranking];
             }
+        }
+
+        public Player FindRankedPlayer(int rank)
+        {
+            Player tempPlayer;
+            int innerRank = rank - 1;
+
+            if(innerRank == -1)
+            {
+                innerRank = PlayerDataDictionary.Count - 1;
+            }
+
+            foreach(var playerData in PlayerDataDictionary)
+            {
+                if(playerData.Value.Ranking == innerRank)
+                {
+                    tempPlayer = playerData.Key;
+                    return tempPlayer;
+                }
+            }
+
+            return null; //Error
         }
     }
 }

@@ -20,11 +20,30 @@ namespace BHS.AcidRain.Game
             get => _combo;
             set => _combo = value;
         }
-        int Score = 0;
+        public int Score = 0;
+
+        private int _hp = 10;
+        public int HP
+        {
+            get => _hp;
+            set => _hp = value;
+        }
+        public void AdjustHP(int i)
+        {
+            if (HP + i >= 10)
+                HP = 10;
+            else if (HP + i <= 0)
+            {
+                HP = 0;
+                Debug.Log("DIE");
+            }
+            Debug.Log(_hp);
+        }
+
 
         public TextInput InputField { get; private set; }
         WordSpawner TestWordSpawner;
-        ScoreBoardManager TestScoreBoardManagerInstance;
+        public ScoreBoardManager ScoreBoardManagerInstance;
         private ComboUIController _comboUIcontroller;
         public PhotonView PhotonView;
 
@@ -42,7 +61,7 @@ namespace BHS.AcidRain.Game
             InputField = FindFirstObjectByType<TextInput>();
             TestWordSpawner = FindFirstObjectByType<WordSpawner>();
             _comboUIcontroller = FindFirstObjectByType<ComboUIController>();
-            TestScoreBoardManagerInstance = new(this);
+            ScoreBoardManagerInstance = new(this);
             _spellController = new(this);
         }
 
@@ -121,9 +140,9 @@ namespace BHS.AcidRain.Game
         /// <param name="wordSpell"></param>
         /// <param name="isPersonal"></param>
         [PunRPC]
-        public void OrderSpawnerSpawnWord(string wordSpell, bool isPersonal = true)
+        public void OrderSpawnerSpawnWord(bool isPublic, int spellLevel, int Loops, bool isSpellWord, int score = 0, float speed = 1f)
         {
-            TestWordSpawner.SpawnOrderedWordRoutine(wordSpell, isPersonal);
+            TestWordSpawner.SpawnOrderedWordRoutine(isPublic, spellLevel, Loops, isSpellWord, score, speed);
         }
 
         void JudgeInputText(string inputText)
@@ -151,7 +170,8 @@ namespace BHS.AcidRain.Game
 
             if (isWrongWord)
             {
-                AdjustCombo(-1);
+                if (Combo >= 1)
+                    AdjustCombo(-1);
             }
             else if (isPersonalWord)
                 TryRemoveWord(inputText, isPersonalWord, null);
@@ -197,7 +217,7 @@ namespace BHS.AcidRain.Game
 
             Combo += comboAdjusted;
             _comboUIcontroller.SetComboMessage(Combo);
-            Debug.Log(Combo+"Combo!!");
+            Debug.Log(Combo + "Combo!!");
 
             if (comboAdjusted > 0)
                 _comboUIcontroller.AddCombo(comboAdjusted);
@@ -213,7 +233,7 @@ namespace BHS.AcidRain.Game
         [PunRPC]
         public void AdjustScoreOfPlayer(int score, Player adjustedPlayer)
         {
-            TestScoreBoardManagerInstance.AdjustScoreOfPlayer(score, adjustedPlayer);
+            ScoreBoardManagerInstance.AdjustScoreOfPlayer(score, adjustedPlayer);
         }
 
         private void UpdateComboTime()

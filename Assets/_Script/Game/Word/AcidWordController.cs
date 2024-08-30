@@ -35,28 +35,47 @@ namespace BHS.AcidRain.Game
             }
         }
 
-        public void AdjustWord(int currentLevel, string wordSpell, bool isPublicWord, float speed = 1f)
+        public void AdjustWord(int currentLevel, string wordSpell, bool isPublicWord, int inputScore = 0, float speed = 1f)
         {
             if (isPublicWord)
             {
-                score = currentLevel * 100;
+                if (inputScore == 0)
+                    score = currentLevel * 100;
+                else
+                    score = inputScore;
+
                 this.wordSpell = wordSpell;
                 textMeshProUGUI.text = wordSpell;
+                textMeshProUGUI.color = Color.red;
                 this.speed = speed;
+                if(score >= 1000)
+                {
+                    textMeshProUGUI.color = Color.blue;
+                }
             }
             else
             {
-                photonView.RPC("AdjustPublicWord", RpcTarget.All, currentLevel, wordSpell, speed);
+                photonView.RPC("AdjustPublicWord", RpcTarget.All, currentLevel, wordSpell, inputScore, speed);
             }
         }
 
         [PunRPC]
-        public void AdjustPublicWord(int currentLevel, string wordSpell, float speed = 1f)
+        public void AdjustPublicWord(int currentLevel, string wordSpell, int inputScore = 0, float speed = 1f)
         {
-            score = currentLevel * 100;
+            if(inputScore == 0)
+                score = currentLevel * 100;
+            else
+                score = inputScore;
+
             this.wordSpell = wordSpell;
             textMeshProUGUI.text = wordSpell;
+            textMeshProUGUI.color = Color.black;
             this.speed = speed;
+
+            if (score >= 1000)
+            {
+                textMeshProUGUI.color = Color.blue;
+            }
         }
 
         void MoveDown()

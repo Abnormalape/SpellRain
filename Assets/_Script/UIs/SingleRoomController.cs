@@ -1,5 +1,4 @@
-﻿using BHS.AcidRain.GameManager;
-using BHS.AcidRain.NetWork;
+﻿using BHS.AcidRain.NetWork;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -90,6 +89,8 @@ namespace BHS.AcidRain.UI
             if (_readyPlayer == CurrentPlayer)
             {
                 // PhotonNetwork.Instantiate();//Todo: Instantiate WordManager.
+
+                PhotonNetwork.CurrentRoom.IsVisible = false;
                 this.RoomManager.SceneChangeOrder(CurrentPlayer);
 
                 //FindFirstObjectByType<GameSceneManager>().GameSceneChange("AcidRainBattle"); //Todo: Please Use Singleton.

@@ -103,7 +103,7 @@ namespace BHS.AcidRain.UI
         private void TryJoinRoom()
         {
             Debug.Log("Room Clicked");
-            PhotonNetwork.JoinRoom("Temp Room");
+            PhotonNetwork.JoinRoom($"{_roomName.text}");
         }
     }
 }

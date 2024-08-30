@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static BHS.AcidRain.Game.WordSpawner;
 
 namespace BHS.AcidRain.Game
 {
@@ -63,7 +64,7 @@ namespace BHS.AcidRain.Game
             {
                 //Debug.Log("WordSpawner Is On Spawn Loop");
 
-                SelectWord(currentLevel, out wordToSpawn);
+                SelectWord(currentLevel, false, out wordToSpawn);
                 SpawnWord(isPersonalWord, out spawnedWord);
                 AdjustWord(spawnedWord, currentLevel, wordToSpawn, isPersonalWord);
                 AddWord(wordToSpawn, spawnedWord, isPersonalWord);
@@ -74,7 +75,7 @@ namespace BHS.AcidRain.Game
                 {
                     spawnCount = 0;
                     currentLevel++;
-                    if(currentLevel > 5)
+                    if (currentLevel > 5)
                     {
                         currentLevel = 5;
                     }
@@ -84,34 +85,50 @@ namespace BHS.AcidRain.Game
             }
         }
 
-        public void SpawnOrderedWordRoutine(string orderedWord, bool isPersonalWord = true)
+        public void SpawnOrderedWordRoutine(bool isPublic, int spellLevel, int Loops, bool isSpellWord, int score = 0, float speed = 1)
         {
-            GameObject spawnedWord;
+            for (int ix = 0; ix < Loops; ix++)
+            {
+                GameObject spawnedWord;
+                string wordToSpawn;
 
-            SpawnWord(isPersonalWord, out spawnedWord);
-            AdjustWord(spawnedWord, currentLevel, orderedWord, isPersonalWord);
-            AddWord(orderedWord, spawnedWord, isPersonalWord);
+                SelectWord(spellLevel, isSpellWord, out wordToSpawn); //Todo SelectSpellWord;
+                SpawnWord(!isPublic, out spawnedWord);
+                AdjustWord(spawnedWord, spellLevel, wordToSpawn, !isPublic, score, speed); //Adjust Word's Score and Speed.
+                AddWord(wordToSpawn, spawnedWord, !isPublic);
+            }
         }
 
         //2. SelectWord
         //Todo:
-        void SelectWord(int wordLevel, out string selectedWord)
+        void SelectWord(int wordLevel, bool isSpellWord, out string selectedWord)
         {
             int _wordLevel = wordLevel;
-
-            SelectWordsRecursively(_wordLevel, out selectedWord);
+            SelectWordsRecursively(_wordLevel, isSpellWord, out selectedWord);
         }
 
-        void SelectWordsRecursively(int wordLevel, out string selectedWord)
+        void SelectWordsRecursively(int wordLevel, bool isSpellWord, out string selectedWord)
         {
-            int randomWordNum = Random.Range(0, WordData.EachLevelWordCounts[wordLevel]);
-            string _word = WordDataManager.GetWordListByLevel(wordLevel)[randomWordNum];
+            int randomWordNum;
+            string _word;
+            if (!isSpellWord)
+            {
+                randomWordNum = Random.Range(0, WordData.EachLevelWordCounts[wordLevel]);
+                _word = WordDataManager.GetWordListByLevel(wordLevel)[randomWordNum];
+            }
+            else
+            {
+                //randomWordNum = Random.Range(0, WordData.EachLevelSpellWordCounts[wordLevel]); //Todo:
+                //_word = WordDataManager.GetSpellWordListByCombo(wordLevel)[randomWordNum]; //Todo:
+                _word = "Test Word";
+            }
+
             string finalSelectedWord;
 
             if (WordManager.PersonalSpawnedDictionary.ContainsKey(_word)
                 || WordManager.PublicSpawnedDictionary.ContainsKey(_word))
             {
-                SelectWordsRecursively(wordLevel, out finalSelectedWord);
+                SelectWordsRecursively(wordLevel, isSpellWord, out finalSelectedWord);
             }
             else
             {
@@ -143,12 +160,12 @@ namespace BHS.AcidRain.Game
             }
         }
 
-        void AdjustWord(GameObject spawnedWord, int currentLevel, string wordSpell, bool isPersonal, float speed = 1f)
+        void AdjustWord(GameObject spawnedWord, int currentLevel, string wordSpell, bool isPersonal, int inputScore = 0, float speed = 1f)
         {
             AcidWordController testAcidWordController =
                 spawnedWord.GetComponent<AcidWordController>();
 
-            testAcidWordController.AdjustWord(currentLevel, wordSpell, isPersonal, speed);
+            testAcidWordController.AdjustWord(currentLevel, wordSpell, isPersonal, inputScore, speed); //Todo:
         }
 
         void AddWord(string Word, GameObject spawnedWord, bool isPersonalWord)

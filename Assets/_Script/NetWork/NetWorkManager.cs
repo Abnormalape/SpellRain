@@ -65,9 +65,12 @@ namespace BHS.AcidRain.NetWork
 
             foreach (RoomInfo roominfo in _tempRoomInfos)
             {
+                if (!roominfo.IsVisible)
+                    continue;
+
                 //If removed room.
                 if (roominfo.RemovedFromList)
-                {
+                {   
                     _gameManager.UIManger.RemoveRoomUI(roominfo); //Remove Room by using Room's Name.
                     RoomDictionaryInLobby.Remove(roominfo.Name);
                     continue;
@@ -89,6 +92,7 @@ namespace BHS.AcidRain.NetWork
         public override void OnJoinedRoom()
         {
             Debug.Log("Joined Room");
+
             if(PhotonNetwork.IsMasterClient)
             {
                 _gameManager.UIManger.InstantiateRoomWindow();
