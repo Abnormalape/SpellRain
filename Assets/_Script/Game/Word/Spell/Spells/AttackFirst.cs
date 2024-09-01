@@ -1,4 +1,4 @@
-﻿using Photon.Pun;
+using Photon.Pun;
 using Photon.Realtime;
 
 namespace BHS.AcidRain.Game
@@ -21,7 +21,7 @@ namespace BHS.AcidRain.Game
 
                 //bool isPublic, int spellLevel, int Loops, bool isSpellWord, int score(choice), float speed(choice)
                 OwnerSpellManager.WordManager.AdjustCombo(-comboNeeded);
-                targetSpawner.RPC("OrderSpawnerSpawnWord", targetPlayer, false, comboNeeded, 1, true, 0, 1f);
+                targetSpawner.RPC("OrderSpawnerSpawnWord", targetPlayer, false, comboNeeded, 1, true, 0, (float)comboNeeded);
             }
             else
             {

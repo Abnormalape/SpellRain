@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -6,7 +7,7 @@ namespace BHS.AcidRain.Function
 {
     public static class Parsing
     {
-        public static void ParseInputGetDictionaryList(string inputText, out List<Dictionary<string,string>> getList)
+        public static void ParseInputGetDictionaryList(string inputText, out List<Dictionary<string, string>> getList)
         {
             List<Dictionary<string, string>> dictionaryList = new();
             ParseString(inputText, out dictionaryList);
@@ -38,13 +39,14 @@ namespace BHS.AcidRain.Function
                 keys[i] = keys[i].Replace("\r", "");
             }
 
+
             for (int ix = 1; ix < lineArray.Length; ix++)
             {
                 Dictionary<string, string> tempDictionary = new();
 
                 string[] values = lineArray[ix].Split(',');
 
-                for(int iy = 0; iy < keys.Length; iy++)
+                for (int iy = 0; iy < keys.Length; iy++)
                 {
                     values[iy].Trim();
 

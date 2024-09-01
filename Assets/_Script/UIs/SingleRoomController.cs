@@ -1,4 +1,4 @@
-﻿using BHS.AcidRain.NetWork;
+using BHS.AcidRain.NetWork;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -148,6 +148,11 @@ namespace BHS.AcidRain.UI
                 _buttonText.text = "Ready";
                 _gameStartReadyButton.onClick.AddListener(GameReady);
             }
+        }
+
+        public void CloseRoomExpandWindow()
+        {
+            PhotonNetwork.LeaveRoom();
         }
     }
 }

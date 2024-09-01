@@ -1,9 +1,5 @@
-﻿using BHS.AcidRain.Game;
 using BHS.AcidRain.NetWork;
 using BHS.AcidRain.UI;
-using Photon.Pun;
-using Photon.Realtime;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BHS.AcidRain.GameManager

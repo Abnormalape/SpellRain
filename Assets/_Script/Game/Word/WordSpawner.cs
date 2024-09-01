@@ -1,4 +1,4 @@
-﻿using Photon.Pun;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -104,6 +104,10 @@ namespace BHS.AcidRain.Game
         void SelectWord(int wordLevel, bool isSpellWord, out string selectedWord)
         {
             int _wordLevel = wordLevel;
+
+            if (isSpellWord)
+                _wordLevel++;
+
             SelectWordsRecursively(_wordLevel, isSpellWord, out selectedWord);
         }
 
@@ -111,17 +115,9 @@ namespace BHS.AcidRain.Game
         {
             int randomWordNum;
             string _word;
-            if (!isSpellWord)
-            {
-                randomWordNum = Random.Range(0, WordData.EachLevelWordCounts[wordLevel]);
-                _word = WordDataManager.GetWordListByLevel(wordLevel)[randomWordNum];
-            }
-            else
-            {
-                //randomWordNum = Random.Range(0, WordData.EachLevelSpellWordCounts[wordLevel]); //Todo:
-                //_word = WordDataManager.GetSpellWordListByCombo(wordLevel)[randomWordNum]; //Todo:
-                _word = "Test Word";
-            }
+            randomWordNum = Random.Range(0, WordData.EachLevelWordCounts[wordLevel]);
+            _word = WordDataManager.GetWordListByLevel(wordLevel)[randomWordNum];
+
 
             string finalSelectedWord;
 
