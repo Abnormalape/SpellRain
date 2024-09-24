@@ -1,6 +1,7 @@
-﻿using BHS.AcidRain.UI;
+using BHS.AcidRain.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -22,27 +23,39 @@ namespace BHS.AcidRain.Game
         }
         public int Score = 0;
 
+        private readonly int MAX_HP = 10;
         private int _hp = 10;
         public int HP
         {
             get => _hp;
             set => _hp = value;
         }
+
+        [PunRPC]
         public void AdjustHP(int i)
         {
-            if (HP + i >= 10)
-                HP = 10;
-            else if (HP + i <= 0)
+            if (IsDead)
+                return;
+
+            HP += i;
+
+            if (HP >= MAX_HP)
+                HP = MAX_HP;
+            else if (HP <= 0)
             {
                 HP = 0;
-                Debug.Log("DIE");
+                MakeDead();
+                PhotonView.RPC("SetPlayerDead", RpcTarget.All, PhotonNetwork.LocalPlayer);
             }
-            Debug.Log(_hp);
+            Debug.Log(HP);
         }
 
+        public bool IsDead = false;
+        private void MakeDead() { IsDead = true; GameOverSign.enabled = true; }
 
+        private Canvas GameOverSign;
         public TextInput InputField { get; private set; }
-        WordSpawner TestWordSpawner;
+        WordSpawner WordSpawner;
         public ScoreBoardManager ScoreBoardManagerInstance;
         private ComboUIController _comboUIcontroller;
         public PhotonView PhotonView;
@@ -59,23 +72,26 @@ namespace BHS.AcidRain.Game
         {
             PhotonView = GetComponent<PhotonView>();
             InputField = FindFirstObjectByType<TextInput>();
-            TestWordSpawner = FindFirstObjectByType<WordSpawner>();
+            WordSpawner = FindFirstObjectByType<WordSpawner>();
             _comboUIcontroller = FindFirstObjectByType<ComboUIController>();
             ScoreBoardManagerInstance = new(this);
             _spellController = new(this);
+            GameOverSign = GameObject.Find("GameOverSign").GetComponentInChildren<Canvas>();
         }
 
         private void Start()
         {
             InputField.OnEnterText += JudgeInputText;
 
-            TestWordSpawner.ManagerFoundSpawner(this);
-            TestWordSpawner.OnWordSpawn += AddWord;
+            WordSpawner.ManagerFoundSpawner(this);
+            WordSpawner.OnWordSpawn += AddWord;
+
+            GameOverSign.enabled = false;
 
             Debug.Log("TestWordManaget Statrs");
 
             if (PhotonNetwork.IsMasterClient) //Todo: When StartSpawn Should Be Adjusted.
-                TestWordSpawner.StartSpawn();
+                WordSpawner.StartSpawn();
 
             Debug.Log("TestWordManaget Start Spawn");
 
@@ -135,6 +151,37 @@ namespace BHS.AcidRain.Game
         }
 
         /// <summary>
+        /// When Word Touch Ocean.
+        /// </summary>
+        [PunRPC]
+        public void WordTouchedOcean(string wordSpell)
+        {
+            bool isPersonalWord = false;
+            bool isPublicWord = false;
+
+            isPersonalWord = PersonalSpawnedDictionary.ContainsKey(wordSpell);
+            isPublicWord = PublicSpawnedDictionary.ContainsKey(wordSpell);
+
+            if (isPersonalWord)
+            {
+                Destroy(PersonalSpawnedDictionary[wordSpell]); //Destroy Word.
+                PersonalSpawnedDictionary.Remove(wordSpell);
+                AdjustHP(-1);
+            }
+            else if (isPublicWord)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.Destroy(PublicSpawnedDictionary[wordSpell]); //Destroy Word.
+                    PublicSpawnedDictionary.Remove(wordSpell);
+                    PhotonView.RPC("AdjustHP", RpcTarget.All, -1);
+                }
+                else
+                    return;
+            }
+        }
+
+        /// <summary>
         /// When other client want to make word to another client, use this as RPC.
         /// </summary>
         /// <param name="wordSpell"></param>
@@ -142,11 +189,14 @@ namespace BHS.AcidRain.Game
         [PunRPC]
         public void OrderSpawnerSpawnWord(bool isPublic, int spellLevel, int Loops, bool isSpellWord, int score = 0, float speed = 1f)
         {
-            TestWordSpawner.SpawnOrderedWordRoutine(isPublic, spellLevel, Loops, isSpellWord, score, speed);
+            WordSpawner.SpawnOrderedWordRoutine(isPublic, spellLevel, Loops, isSpellWord, score, speed);
         }
 
         void JudgeInputText(string inputText)
         {
+            if (IsDead)
+                return;
+
             bool isPersonalWord = false;
             bool isPublicWord = false;
             bool isWrongWord = false;
@@ -234,6 +284,12 @@ namespace BHS.AcidRain.Game
         public void AdjustScoreOfPlayer(int score, Player adjustedPlayer)
         {
             ScoreBoardManagerInstance.AdjustScoreOfPlayer(score, adjustedPlayer);
+        }
+
+        [PunRPC]
+        public void SetPlayerDead(Player deadPlayer)
+        {
+            ScoreBoardManagerInstance.SetPlayerDead(deadPlayer);
         }
 
         private void UpdateComboTime()

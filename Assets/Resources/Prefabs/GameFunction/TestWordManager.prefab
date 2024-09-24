@@ -68,4 +68,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Score: 0
+  IsDead: 0
   PhotonView: {fileID: 0}

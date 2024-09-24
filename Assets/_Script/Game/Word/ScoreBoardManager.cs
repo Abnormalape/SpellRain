@@ -1,4 +1,4 @@
-﻿using Photon.Pun;
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -17,7 +17,7 @@ namespace BHS.AcidRain.Game
             WordManager.OnChangeScore += SendScoreToAllPlayer;
 
             RankingPositionHolder = WordManager.InputField.transform.root.Find("RankingPositionHolder"); //Todo:
-            PersonalScoreBoardPrefab = Resources.Load("Prefabs/UIWindow/SingleScoreBoard") as GameObject;
+            PersonalScoreBoardPrefab = Resources.Load(SCOREBOARDPATH) as GameObject;
 
             int positionNumber = 0;
             foreach (var player in PhotonNetwork.PlayerList)
@@ -32,7 +32,7 @@ namespace BHS.AcidRain.Game
                     .GetComponent<ScoreBoardController>();
 
                 //Set ScoreBoard's Data.
-                if(player == PhotonNetwork.MasterClient) //Todo: Remove
+                if (player == PhotonNetwork.MasterClient) //Todo: Remove
                 {
                     player.NickName = "MasterClient";
                 }
@@ -49,7 +49,7 @@ namespace BHS.AcidRain.Game
                 //Set ScoreBoard's Position.
                 PlayerDataDictionary[player].transform.GetChild(0).GetChild(0)
                     .GetComponent<RectTransform>().position = RankingPositions[positionNumber];
-                    //.position = RankingPositions[positionNumber];
+                //.position = RankingPositions[positionNumber];
 
                 //Move To Next.
                 positionNumber++;
@@ -57,6 +57,7 @@ namespace BHS.AcidRain.Game
         }
 
 
+        private readonly string SCOREBOARDPATH = "Prefabs/UIWindow/SingleScoreBoard";
         WordManager WordManager;
         Dictionary<Player, ScoreBoardController> PlayerDataDictionary = new(4);
         Transform RankingPositionHolder; //Todo:
@@ -79,6 +80,12 @@ namespace BHS.AcidRain.Game
 
             RearrangePlayerRanking();
             PlaceScoreBoardByRanking();
+        }
+
+        public void SetPlayerDead(Player deadPlayer)
+        {
+            PlayerDataDictionary[deadPlayer].SetDead();
+            Debug.Log("Dead Player Rank : " + PlayerDataDictionary[deadPlayer].Ranking);
         }
 
         void RearrangePlayerRanking()
@@ -104,33 +111,61 @@ namespace BHS.AcidRain.Game
             foreach (var playerData in PlayerDataDictionary)
             {
                 playerData.Value.transform.GetChild(0).GetChild(0)
-                    .GetComponent<RectTransform>().position 
+                    .GetComponent<RectTransform>().position
                     = RankingPositions[playerData.Value.Ranking];
-                    //.transform.position
-                    //= RankingPositions[playerData.Value.Ranking];
+                //.transform.position
+                //= RankingPositions[playerData.Value.Ranking];
             }
         }
 
-        public Player FindRankedPlayer(int rank)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rank">Use 0 for Find Last</param>
+        /// <param name="findLast">Is for repeat. not use</param>
+        /// <returns></returns>
+        public Player FindRankedPlayer(int rank, bool findLast = false)
         {
             Player tempPlayer;
             int innerRank = rank - 1;
+            bool findingLast = findLast;
 
-            if(innerRank == -1)
+            if (innerRank == -1) //Use for Find Last Ranked Player.
             {
                 innerRank = PlayerDataDictionary.Count - 1;
+                findingLast = true;
             }
 
-            foreach(var playerData in PlayerDataDictionary)
+            foreach (var playerData in PlayerDataDictionary)
             {
-                if(playerData.Value.Ranking == innerRank)
+                if (playerData.Value.Ranking == innerRank)
                 {
+                    if (playerData.Value.IsDead == true)
+                        continue;
+
                     tempPlayer = playerData.Key;
                     return tempPlayer;
                 }
             }
 
-            return null; //Error
+            if (!findingLast)
+            {
+                if (rank == 0)
+                    return null; //Error
+                rank++;
+            }
+            else
+            {
+                if (rank == PlayerDataDictionary.Count - 1)
+                    return null;
+
+                if (rank == 0)
+                    rank = PlayerDataDictionary.Count;
+
+                rank--;
+            }
+
+            return FindRankedPlayer(rank, findingLast);
         }
     }
 }

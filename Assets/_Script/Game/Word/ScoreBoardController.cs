@@ -1,4 +1,4 @@
-﻿using Photon.Pun;
+using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
@@ -16,8 +16,12 @@ namespace BHS.AcidRain.Game
             Ranking = ranking;
             Player = player;
             Name = name;
+            IsDead = false;
         }
 
+
+        public bool IsDead { get; private set; }
+        public void SetDead() { if (!IsDead) IsDead = true; }
 
         public int Score;
         Player Player;
@@ -57,7 +61,7 @@ namespace BHS.AcidRain.Game
             RankingText.text = (Ranking + 1).ToString();
             ScoreText.text = Score.ToString();
 
-            if(Name == "" || Name == null)
+            if (Name == "" || Name == null)
             {
                 Name = "null";
             }

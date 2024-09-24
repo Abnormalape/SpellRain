@@ -158,10 +158,10 @@ namespace BHS.AcidRain.Game
 
         void AdjustWord(GameObject spawnedWord, int currentLevel, string wordSpell, bool isPersonal, int inputScore = 0, float speed = 1f)
         {
-            AcidWordController testAcidWordController =
+            AcidWordController acidWordController =
                 spawnedWord.GetComponent<AcidWordController>();
 
-            testAcidWordController.AdjustWord(currentLevel, wordSpell, isPersonal, inputScore, speed); //Todo:
+            acidWordController.AdjustWord(currentLevel, wordSpell, isPersonal, inputScore, speed); //Todo: for what? it works well...
         }
 
         void AddWord(string Word, GameObject spawnedWord, bool isPersonalWord)

@@ -1,4 +1,4 @@
-﻿using TMPro;
+using TMPro;
 using UnityEngine;
 using Photon.Pun;
 
@@ -17,12 +17,13 @@ namespace BHS.AcidRain.Game
         float speed;
         TextMeshProUGUI textMeshProUGUI;
         PhotonView photonView;
-
+        WordManager wordManager;
 
         private void Awake()
         {
             textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
             photonView = GetComponent<PhotonView>();
+            this.wordManager = FindFirstObjectByType<WordManager>();
         }
 
         private void Update()
@@ -48,7 +49,7 @@ namespace BHS.AcidRain.Game
                 textMeshProUGUI.text = wordSpell;
                 textMeshProUGUI.color = Color.red;
                 this.speed = speed;
-                if(score >= 1000)
+                if (score >= 1000)
                 {
                     textMeshProUGUI.color = Color.blue;
                 }
@@ -62,7 +63,7 @@ namespace BHS.AcidRain.Game
         [PunRPC]
         public void AdjustPublicWord(int currentLevel, string wordSpell, int inputScore = 0, float speed = 1f)
         {
-            if(inputScore == 0)
+            if (inputScore == 0)
                 score = currentLevel * 100;
             else
                 score = inputScore;
@@ -82,6 +83,11 @@ namespace BHS.AcidRain.Game
         {
             float randonMovement = Random.Range(0.9f, 1.1f);
             transform.position += Vector3.down * randonMovement * 0.5f;
+
+            if (transform.position.y <= -2.75f)
+            {
+                wordManager.WordTouchedOcean(wordSpell);
+            }
         }
 
         [PunRPC]
