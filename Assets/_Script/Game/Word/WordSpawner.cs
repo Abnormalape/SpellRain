@@ -92,9 +92,9 @@ namespace BHS.AcidRain.Game
                 GameObject spawnedWord;
                 string wordToSpawn;
 
-                SelectWord(spellLevel, isSpellWord, out wordToSpawn); //Todo SelectSpellWord;
+                SelectWord(spellLevel, isSpellWord, out wordToSpawn);
                 SpawnWord(!isPublic, out spawnedWord);
-                AdjustWord(spawnedWord, spellLevel, wordToSpawn, !isPublic, score, speed); //Adjust Word's Score and Speed.
+                AdjustWord(spawnedWord, spellLevel, wordToSpawn, !isPublic, score, speed);
                 AddWord(wordToSpawn, spawnedWord, !isPublic);
             }
         }

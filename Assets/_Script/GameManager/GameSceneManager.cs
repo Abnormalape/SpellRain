@@ -1,4 +1,4 @@
-﻿using BHS.AcidRain.NetWork;
+using BHS.AcidRain.NetWork;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;

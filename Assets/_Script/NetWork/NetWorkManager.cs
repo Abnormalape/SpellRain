@@ -36,26 +36,6 @@ namespace BHS.AcidRain.NetWork
             PhotonNetwork.JoinLobby();
         }
 
-        public override void OnConnectedToMaster()
-        {
-            Debug.Log("Connected To Server");
-        }
-
-        public override void OnJoinedLobby()
-        {
-            Debug.Log("Joined To Lobby");
-        }
-
-        public override void OnLeftLobby()
-        {
-            Debug.Log("Left From Lobby");
-        }
-
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            Debug.Log($"Connection Fail: {cause}");
-        }
-
         //Set, Add, Remove Room UI.
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
@@ -68,20 +48,18 @@ namespace BHS.AcidRain.NetWork
                 if (!roominfo.IsVisible)
                     continue;
 
-                //If removed room.
                 if (roominfo.RemovedFromList)
                 {   
-                    _gameManager.UIManger.RemoveRoomUI(roominfo); //Remove Room by using Room's Name.
+                    _gameManager.UIManger.RemoveRoomUI(roominfo);
                     RoomDictionaryInLobby.Remove(roominfo.Name);
                     continue;
                 }
-                //If Updated or Added room.
-                if (RoomDictionaryInLobby.ContainsKey(roominfo.Name)) //If There is Key == udpate.
+                if (RoomDictionaryInLobby.ContainsKey(roominfo.Name))
                 {
                     _gameManager.UIManger.UpdateRoomUI(roominfo);
                     RoomDictionaryInLobby[roominfo.Name] = roominfo;
                 }
-                else if (!RoomDictionaryInLobby.ContainsKey(roominfo.Name)) //If There is no Key == new.
+                else if (!RoomDictionaryInLobby.ContainsKey(roominfo.Name))
                 {
                     _gameManager.UIManger.AddRoomUI(roominfo);
                     RoomDictionaryInLobby.Add(roominfo.Name, roominfo);
@@ -102,6 +80,26 @@ namespace BHS.AcidRain.NetWork
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
             Debug.Log($"Error Code : {returnCode} \nMessage : {message}");
+        }
+
+        public override void OnConnectedToMaster()
+        {
+            Debug.Log("Connected To Server");
+        }
+
+        public override void OnJoinedLobby()
+        {
+            Debug.Log("Joined To Lobby");
+        }
+
+        public override void OnLeftLobby()
+        {
+            Debug.Log("Left From Lobby");
+        }
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            Debug.Log($"Connection Fail: {cause}");
         }
     }
 }

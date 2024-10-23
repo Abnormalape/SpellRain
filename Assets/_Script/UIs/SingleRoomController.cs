@@ -88,17 +88,12 @@ namespace BHS.AcidRain.UI
         {
             if (_readyPlayer == CurrentPlayer)
             {
-                // PhotonNetwork.Instantiate();//Todo: Instantiate WordManager.
-
                 PhotonNetwork.CurrentRoom.IsVisible = false;
                 this.RoomManager.SceneChangeOrder(CurrentPlayer);
-
-                //FindFirstObjectByType<GameSceneManager>().GameSceneChange("AcidRainBattle"); //Todo: Please Use Singleton.
             }
             else
             {
                 Debug.Log("Not All Player Ready");
-                //UIManager.NotFullyReady(); //Todo: Please Use Singleton.
             }
         }
 
